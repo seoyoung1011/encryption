@@ -1,13 +1,14 @@
 from tkinter import *
-import engine, random
+import random, engine
+
 
 class APP(Tk):
     def __init__(self):
         Tk.__init__(self)
         self.frame = None
         self.title("집에 보내줘")
-        self.iconbitmap('./icon_key.ico')
-        self.geometry("400x300")
+        self.iconbitmap('other/icon_key.ico')
+        self.geometry("400x300+400+200")
         self.resizable(0, 0)
         self.switch_frame(main)
 
@@ -18,6 +19,7 @@ class APP(Tk):
         self.frame = new_frame
         self.frame.pack()
         self.propagate(0)
+
 
 class main(Frame):
     def __init__(self, master):
@@ -30,16 +32,18 @@ class main(Frame):
 class makePW(Frame):
     def __init__(self, master):
         Frame.__init__(self, master, width=400, height=300)
-        Label(self, text="비밀번호 입력").place(x="50", y="50")
+        self.back = PhotoImage(file="other/icon_back.png").subsample(25)
+        Button(self, text=" ", image=self.back, command=lambda: master.switch_frame(main)).place(x="0", y="0")
+        Label(self, text="비밀번호 입력").place(x="50", y="60")
         self.PW = Entry(self, width=30)
-        self.PW.place(x="140", y="50")
-        Label(self, text="암호키 입력").place(x="50", y="80")
+        self.PW.place(x="140", y="60")
+        Label(self, text="암호키 입력").place(x="50", y="90")
         self.PWKEY = Entry(self, width=30)
-        self.PWKEY.place(x="140", y="80")
-        Button(self, text="암호화 하기", command=self.go).place(x="280", y="110")
-        Label(self, text="결과").place(x="50", y="150")
+        self.PWKEY.place(x="140", y="90")
+        Button(self, text="암호화 하기", command=self.go).place(x="280", y="120")
+        Label(self, text="결과").place(x="50", y="160")
         self.result = Entry(self, width=30)
-        self.result.place(x="140", y="150")
+        self.result.place(x="140", y="160")
         self.propagate(0)
 
     def go(self):
@@ -53,16 +57,18 @@ class makePW(Frame):
 class encryption(Frame):
     def __init__(self, master):
         Frame.__init__(self, master, width=400, height=300)
-        Label(self, text="평문 입력").place(x="50", y="50")
+        self.back = PhotoImage(file="other/icon_back.png").subsample(25)
+        Button(self, text=" ", image=self.back, command=lambda: master.switch_frame(main)).place(x="0", y="0")
+        Label(self, text="평문 입력").place(x="50", y="60")
         self.text = Entry(self, width=30)
-        self.text.place(x="140", y="50")
-        Button(self, text="암호화 하기", command=self.go).place(x="280", y="80")
-        Label(self, text="결과").place(x="50", y="120")
+        self.text.place(x="140", y="60")
+        Button(self, text="암호화 하기", command=self.go).place(x="280", y="90")
+        Label(self, text="결과").place(x="50", y="130")
         self.result = Entry(self, width=30)
-        self.result.place(x="140", y="120")
-        Label(self, text="사용된 암호키").place(x="50", y="150")
+        self.result.place(x="140", y="130")
+        Label(self, text="사용된 암호키").place(x="50", y="160")
         self.useKey = Label(self, text="", width=30, anchor="w")
-        self.useKey.place(x="140", y="150")
+        self.useKey.place(x="140", y="160")
         self.propagate(0)
 
     def go(self):
@@ -74,10 +80,11 @@ class encryption(Frame):
         self.useKey.config(text=key)
 
     def getKey(self):
-        keys = open('key.txt', 'r').read().split('\n')
+        keys = open('other/key.txt', 'r').read().split('\n')
         key = random.choice(keys)
 
         return key
+
 
 if __name__ == "__main__":
     app = APP()
